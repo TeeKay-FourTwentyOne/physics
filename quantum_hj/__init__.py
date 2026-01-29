@@ -21,10 +21,20 @@ from .solver import (
     MorsePotential,
     QuantumHJSolver,
 )
+from .pinn import (
+    ComplexMLP,
+    MomentumPINN,
+    QuantumHJPINN,
+    PINNSolver,
+)
 
 __all__ = [
     'Potential',
     'HarmonicOscillator',
     'MorsePotential',
     'QuantumHJSolver',
+    'ComplexMLP',
+    'MomentumPINN',
+    'QuantumHJPINN',
+    'PINNSolver',
 ]
