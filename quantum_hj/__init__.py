@@ -40,6 +40,9 @@ from .pinn import (
 from .potentials_2d import (
     Potential2D,
     HarmonicOscillator2D,
+    CoupledHarmonicOscillator,
+    HenonHeiles,
+    QuarticOscillator2D,
 )
 from .pinn_2d import (
     ComplexMLP2D,
@@ -47,6 +50,37 @@ from .pinn_2d import (
     SeparableMomentumPINN2D,
     QuantumHJPINN2D,
     PINNSolver2D,
+)
+from .dvr import (
+    DVRSolver2D,
+    compute_dvr_reference,
+)
+from .pinn_2d_nonsep import (
+    EnergyConditionedMLP,
+    QuantumHJPINN2DNonSep,
+    EBKQuantizer,
+    NonSepPINNSolver,
+)
+from .pinn_2d_qn import (
+    hermite_zeros,
+    QuantumNumberPINN2D,
+    QuantumNumberTrainer,
+    NonSepQuantumSolver,
+)
+from .potentials_nd import (
+    PotentialND,
+    IsotropicOscillatorND,
+    CoupledOscillator3D,
+    CoupledOscillator4D,
+)
+from .dvr_nd import (
+    DVRSolverND,
+    compute_dvr_reference_nd,
+)
+from .pinn_nd import (
+    QuantumNumberPINNND,
+    QuantumNumberTrainerND,
+    NonSepQuantumSolverND,
 )
 
 __all__ = [
@@ -59,7 +93,7 @@ __all__ = [
     'MomentumPINN',
     'QuantumHJPINN',
     'PINNSolver',
-    # 2D classes
+    # 2D separable classes
     'Potential2D',
     'HarmonicOscillator2D',
     'ComplexMLP2D',
@@ -67,4 +101,33 @@ __all__ = [
     'SeparableMomentumPINN2D',
     'QuantumHJPINN2D',
     'PINNSolver2D',
+    # 2D non-separable potentials
+    'CoupledHarmonicOscillator',
+    'HenonHeiles',
+    'QuarticOscillator2D',
+    # DVR reference solver
+    'DVRSolver2D',
+    'compute_dvr_reference',
+    # 2D non-separable PINN classes
+    'EnergyConditionedMLP',
+    'QuantumHJPINN2DNonSep',
+    'EBKQuantizer',
+    'NonSepPINNSolver',
+    # Quantum-number-conditioned PINN classes
+    'hermite_zeros',
+    'QuantumNumberPINN2D',
+    'QuantumNumberTrainer',
+    'NonSepQuantumSolver',
+    # N-dimensional potentials
+    'PotentialND',
+    'IsotropicOscillatorND',
+    'CoupledOscillator3D',
+    'CoupledOscillator4D',
+    # N-dimensional DVR solver
+    'DVRSolverND',
+    'compute_dvr_reference_nd',
+    # N-dimensional PINN solver
+    'QuantumNumberPINNND',
+    'QuantumNumberTrainerND',
+    'NonSepQuantumSolverND',
 ]
