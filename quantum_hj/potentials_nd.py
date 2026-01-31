@@ -578,3 +578,398 @@ class CoupledOscillator4D(PotentialND):
             [0, 0, a, b],
             [0, 0, b, a]
         ])
+
+
+class CoupledOscillator6D(PotentialND):
+    """
+    6D coupled harmonic oscillator with nearest-neighbor periodic coupling.
+
+    V = (1/2)Σᵢxᵢ² + λΣᵢxᵢxᵢ₊₁  (periodic: x₆ couples to x₁)
+
+    The Hessian matrix is circulant:
+        H = [[1, λ, 0, 0, 0, λ],
+             [λ, 1, λ, 0, 0, 0],
+             [0, λ, 1, λ, 0, 0],
+             [0, 0, λ, 1, λ, 0],
+             [0, 0, 0, λ, 1, λ],
+             [λ, 0, 0, 0, λ, 1]]
+
+    This has analytical eigenvalues: 1 + 2λ*cos(2πk/6) for k = 0, 1, ..., 5
+
+    Parameters
+    ----------
+    coupling : float
+        Coupling strength λ (default: 0.15). Must satisfy |λ| < 0.5 for bounded potential.
+    mass : float
+        Particle mass (default: 1.0)
+    """
+
+    def __init__(self, coupling=0.15, mass=1.0):
+        if abs(coupling) >= 0.5:
+            raise ValueError("Coupling must satisfy |λ| < 0.5 for bounded potential")
+
+        self._coupling = coupling
+        self.mass = mass
+
+        # Compute normal mode frequencies analytically
+        # Eigenvalues of circulant matrix: 1 + 2λ*cos(2πk/6) for k = 0, 1, ..., 5
+        self._eigenvalues = np.array([
+            1.0 + 2 * coupling * np.cos(2 * np.pi * k / 6)
+            for k in range(6)
+        ])
+
+        if np.any(self._eigenvalues <= 0):
+            raise ValueError(
+                f"Coupling too strong: Hessian has eigenvalues {self._eigenvalues}. "
+                "Reduce coupling."
+            )
+
+        self._omega = np.sqrt(self._eigenvalues / mass)
+
+        # Cache the rotation matrix (DFT matrix for circulant)
+        self._compute_rotation_matrix()
+
+    def _compute_rotation_matrix(self):
+        """Compute the orthonormal eigenvector matrix for the circulant Hessian."""
+        # For a real symmetric circulant matrix, eigenvectors are related to DFT
+        # but we need real orthonormal eigenvectors
+        H = self.hessian_at_minimum()
+        _, self._R = np.linalg.eigh(H)
+
+    @property
+    def ndim(self):
+        return 6
+
+    @property
+    def coupling(self):
+        return self._coupling
+
+    def __call__(self, *coords):
+        """V = (1/2)Σᵢxᵢ² + λΣᵢxᵢxᵢ₊₁ (periodic)"""
+        if len(coords) != 6:
+            raise ValueError(f"Expected 6 coordinates, got {len(coords)}")
+
+        # Quadratic terms
+        result = 0.0
+        for x in coords:
+            result = result + 0.5 * x**2
+
+        # Nearest-neighbor coupling (periodic)
+        for i in range(6):
+            j = (i + 1) % 6
+            result = result + self._coupling * coords[i] * coords[j]
+
+        return result
+
+    def turning_points(self, E, dim, fixed_coords=None):
+        """
+        Classical turning points in dimension `dim`.
+        """
+        if fixed_coords is None:
+            fixed_coords = {}
+
+        coords = [fixed_coords.get(d, 0.0) for d in range(6)]
+
+        # For dimension dim, the potential is quadratic in x_dim:
+        # V = (1/2)x_dim^2 + λ*x_dim*(x_{dim-1} + x_{dim+1}) + const
+
+        prev_dim = (dim - 1) % 6
+        next_dim = (dim + 1) % 6
+
+        a = 0.5
+        b = self._coupling * (coords[prev_dim] + coords[next_dim])
+
+        # Constant part: sum over all other quadratic and coupling terms
+        c = 0.0
+        for i in range(6):
+            if i != dim:
+                c += 0.5 * coords[i]**2
+        for i in range(6):
+            j = (i + 1) % 6
+            if i != dim and j != dim:
+                c += self._coupling * coords[i] * coords[j]
+        c -= E
+
+        disc = b**2 - 4 * a * c
+        if disc < 0:
+            return None
+        sqrt_disc = np.sqrt(disc)
+        return ((-b - sqrt_disc) / (2 * a), (-b + sqrt_disc) / (2 * a))
+
+    def hessian_at_minimum(self):
+        """
+        Circulant Hessian matrix for periodic nearest-neighbor coupling.
+        """
+        lam = self._coupling
+        H = np.eye(6)
+        for i in range(6):
+            j = (i + 1) % 6
+            H[i, j] = lam
+            H[j, i] = lam
+        return H
+
+    def exact_energy(self, quantum_numbers, hbar=1.0):
+        """
+        Exact energy using normal mode frequencies.
+
+        E = hbar * Σᵢ ωᵢ * (nᵢ + 1/2)
+
+        where ωᵢ are sorted normal mode frequencies and nᵢ are quantum numbers
+        assigned to modes in ascending frequency order.
+        """
+        if len(quantum_numbers) != 6:
+            raise ValueError("Expected 6 quantum numbers")
+
+        omega_sorted = np.sort(self._omega)
+        n_sorted = sorted(quantum_numbers)
+
+        return hbar * sum(omega_sorted[i] * (n_sorted[i] + 0.5) for i in range(6))
+
+    def alpha_matrix(self):
+        """
+        Return the coefficient matrix for exact quantum momentum.
+
+        For coupled oscillator: p = -i * α @ coords
+        where α = R @ diag(ω) @ R^T
+        """
+        omega_diag = np.diag(self._omega)
+        return self._R @ omega_diag @ self._R.T
+
+
+class TriatomicVibrational(PotentialND):
+    """
+    6D model of triatomic molecular vibrations.
+
+    Coordinates: (r₁, r₂, θ₁, θ₂, φ₁, φ₂)
+    - r₁, r₂: stretch coordinates (bond length deviations)
+    - θ₁, θ₂: in-plane bend coordinates
+    - φ₁, φ₂: out-of-plane bend coordinates
+
+    V = (1/2)k₁(r₁² + r₂²) + (1/2)k₂(θ₁² + θ₂²) + (1/2)k₃(φ₁² + φ₂²)
+        + λ_sb(r₁θ₁ + r₂θ₂)  [stretch-bend coupling]
+
+    Parameters
+    ----------
+    k_stretch : float
+        Stretch force constant (default: 1.0)
+    k_bend_in : float
+        In-plane bend force constant (default: 0.5)
+    k_bend_out : float
+        Out-of-plane bend force constant (default: 0.3)
+    lambda_sb : float
+        Stretch-bend coupling (default: 0.1)
+    mass : float
+        Effective mass (default: 1.0)
+    """
+
+    def __init__(self, k_stretch=1.0, k_bend_in=0.5, k_bend_out=0.3,
+                 lambda_sb=0.1, mass=1.0):
+        self.k_stretch = k_stretch
+        self.k_bend_in = k_bend_in
+        self.k_bend_out = k_bend_out
+        self.lambda_sb = lambda_sb
+        self.mass = mass
+
+        # Validate positive definiteness
+        H = self.hessian_at_minimum()
+        eigenvalues = np.linalg.eigvalsh(H)
+        if np.any(eigenvalues <= 0):
+            raise ValueError(
+                f"Parameters give non-positive definite Hessian: eigenvalues = {eigenvalues}"
+            )
+
+        self._omega = np.sqrt(eigenvalues / mass)
+        _, self._R = np.linalg.eigh(H)
+
+    @property
+    def ndim(self):
+        return 6
+
+    def __call__(self, *coords):
+        """
+        V = (1/2)k₁(r₁² + r₂²) + (1/2)k₂(θ₁² + θ₂²) + (1/2)k₃(φ₁² + φ₂²)
+            + λ_sb(r₁θ₁ + r₂θ₂)
+        """
+        if len(coords) != 6:
+            raise ValueError(f"Expected 6 coordinates, got {len(coords)}")
+
+        r1, r2, theta1, theta2, phi1, phi2 = coords
+
+        V = (0.5 * self.k_stretch * (r1**2 + r2**2) +
+             0.5 * self.k_bend_in * (theta1**2 + theta2**2) +
+             0.5 * self.k_bend_out * (phi1**2 + phi2**2) +
+             self.lambda_sb * (r1 * theta1 + r2 * theta2))
+
+        return V
+
+    def turning_points(self, E, dim, fixed_coords=None):
+        """Classical turning points in dimension `dim`."""
+        if fixed_coords is None:
+            fixed_coords = {}
+
+        coords = [fixed_coords.get(d, 0.0) for d in range(6)]
+
+        # Coefficients depend on which coordinate we're solving for
+        if dim == 0:  # r1
+            a = 0.5 * self.k_stretch
+            b = self.lambda_sb * coords[2]  # θ₁
+            c = self._const_term(coords, exclude=0) - E
+        elif dim == 1:  # r2
+            a = 0.5 * self.k_stretch
+            b = self.lambda_sb * coords[3]  # θ₂
+            c = self._const_term(coords, exclude=1) - E
+        elif dim == 2:  # θ₁
+            a = 0.5 * self.k_bend_in
+            b = self.lambda_sb * coords[0]  # r₁
+            c = self._const_term(coords, exclude=2) - E
+        elif dim == 3:  # θ₂
+            a = 0.5 * self.k_bend_in
+            b = self.lambda_sb * coords[1]  # r₂
+            c = self._const_term(coords, exclude=3) - E
+        elif dim == 4:  # φ₁
+            a = 0.5 * self.k_bend_out
+            b = 0.0
+            c = self._const_term(coords, exclude=4) - E
+        else:  # dim == 5, φ₂
+            a = 0.5 * self.k_bend_out
+            b = 0.0
+            c = self._const_term(coords, exclude=5) - E
+
+        disc = b**2 - 4 * a * c
+        if disc < 0:
+            return None
+        sqrt_disc = np.sqrt(disc)
+        return ((-b - sqrt_disc) / (2 * a), (-b + sqrt_disc) / (2 * a))
+
+    def _const_term(self, coords, exclude):
+        """Compute constant term (all contributions except from dimension `exclude`)."""
+        r1, r2, theta1, theta2, phi1, phi2 = coords
+
+        c = 0.0
+        if exclude != 0:
+            c += 0.5 * self.k_stretch * r1**2
+        if exclude != 1:
+            c += 0.5 * self.k_stretch * r2**2
+        if exclude != 2:
+            c += 0.5 * self.k_bend_in * theta1**2
+        if exclude != 3:
+            c += 0.5 * self.k_bend_in * theta2**2
+        if exclude != 4:
+            c += 0.5 * self.k_bend_out * phi1**2
+        if exclude != 5:
+            c += 0.5 * self.k_bend_out * phi2**2
+
+        # Coupling terms
+        if exclude not in [0, 2]:
+            c += self.lambda_sb * r1 * theta1
+        if exclude not in [1, 3]:
+            c += self.lambda_sb * r2 * theta2
+
+        return c
+
+    def hessian_at_minimum(self):
+        """
+        Block-structured Hessian matrix.
+
+        Structure (with stretch-bend coupling):
+        [[k1, 0,  λ,  0,  0,  0 ],    (r₁)
+         [0,  k1, 0,  λ,  0,  0 ],    (r₂)
+         [λ,  0,  k2, 0,  0,  0 ],    (θ₁)
+         [0,  λ,  0,  k2, 0,  0 ],    (θ₂)
+         [0,  0,  0,  0,  k3, 0 ],    (φ₁)
+         [0,  0,  0,  0,  0,  k3]]   (φ₂)
+        """
+        H = np.zeros((6, 6))
+        H[0, 0] = self.k_stretch
+        H[1, 1] = self.k_stretch
+        H[2, 2] = self.k_bend_in
+        H[3, 3] = self.k_bend_in
+        H[4, 4] = self.k_bend_out
+        H[5, 5] = self.k_bend_out
+
+        # Stretch-bend coupling
+        H[0, 2] = H[2, 0] = self.lambda_sb
+        H[1, 3] = H[3, 1] = self.lambda_sb
+
+        return H
+
+    def exact_energy(self, quantum_numbers, hbar=1.0):
+        """Exact energy using normal mode frequencies."""
+        if len(quantum_numbers) != 6:
+            raise ValueError("Expected 6 quantum numbers")
+
+        omega_sorted = np.sort(self._omega)
+        n_sorted = sorted(quantum_numbers)
+
+        return hbar * sum(omega_sorted[i] * (n_sorted[i] + 0.5) for i in range(6))
+
+    def alpha_matrix(self):
+        """Return the coefficient matrix for exact quantum momentum."""
+        omega_diag = np.diag(self._omega)
+        return self._R @ omega_diag @ self._R.T
+
+
+def normal_mode_ground_state_energy(hessian, mass=1.0, hbar=1.0):
+    """
+    Compute exact ground state energy for a quadratic potential.
+
+    For V = (1/2) x^T H x, the ground state energy is:
+        E₀ = (ℏ/2) Σᵢ ωᵢ
+
+    where ωᵢ = sqrt(λᵢ/m) and λᵢ are eigenvalues of H.
+
+    Parameters
+    ----------
+    hessian : ndarray
+        N×N Hessian matrix at the potential minimum
+    mass : float
+        Particle mass
+    hbar : float
+        Reduced Planck constant
+
+    Returns
+    -------
+    float
+        Exact ground state energy
+    """
+    eigenvalues = np.linalg.eigvalsh(hessian)
+
+    if np.any(eigenvalues <= 0):
+        raise ValueError("Hessian must be positive definite")
+
+    omega = np.sqrt(eigenvalues / mass)
+    return 0.5 * hbar * np.sum(omega)
+
+
+def normal_mode_energy(hessian, quantum_numbers, mass=1.0, hbar=1.0):
+    """
+    Compute exact energy for a quadratic potential with given quantum numbers.
+
+    Parameters
+    ----------
+    hessian : ndarray
+        N×N Hessian matrix at the potential minimum
+    quantum_numbers : tuple
+        Quantum numbers (n₀, n₁, ..., n_{N-1}), assigned to modes
+        in ascending frequency order
+    mass : float
+        Particle mass
+    hbar : float
+        Reduced Planck constant
+
+    Returns
+    -------
+    float
+        Exact energy for the given state
+    """
+    eigenvalues = np.linalg.eigvalsh(hessian)
+
+    if np.any(eigenvalues <= 0):
+        raise ValueError("Hessian must be positive definite")
+
+    omega = np.sqrt(eigenvalues / mass)
+    omega_sorted = np.sort(omega)
+    n_sorted = sorted(quantum_numbers)
+
+    return hbar * sum(omega_sorted[i] * (n_sorted[i] + 0.5)
+                      for i in range(len(quantum_numbers)))

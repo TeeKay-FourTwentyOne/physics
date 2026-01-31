@@ -72,6 +72,10 @@ from .potentials_nd import (
     IsotropicOscillatorND,
     CoupledOscillator3D,
     CoupledOscillator4D,
+    CoupledOscillator6D,
+    TriatomicVibrational,
+    normal_mode_ground_state_energy,
+    normal_mode_energy,
 )
 from .dvr_nd import (
     DVRSolverND,
@@ -123,6 +127,10 @@ __all__ = [
     'IsotropicOscillatorND',
     'CoupledOscillator3D',
     'CoupledOscillator4D',
+    'CoupledOscillator6D',
+    'TriatomicVibrational',
+    'normal_mode_ground_state_energy',
+    'normal_mode_energy',
     # N-dimensional DVR solver
     'DVRSolverND',
     'compute_dvr_reference_nd',

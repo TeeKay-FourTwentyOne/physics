@@ -22,7 +22,8 @@ from scipy.special import roots_hermite
 
 from .potentials_nd import (
     PotentialND, IsotropicOscillatorND,
-    CoupledOscillator3D, CoupledOscillator4D
+    CoupledOscillator3D, CoupledOscillator4D,
+    CoupledOscillator6D, TriatomicVibrational
 )
 
 
@@ -214,10 +215,20 @@ class QuantumNumberTrainerND:
         self.mass = mass
 
         # Dimension-aware defaults for network architecture
+        # 3D: 4 layers, 128 neurons
+        # 4D: 5 layers, 192 neurons
+        # 5D: 6 layers, 320 neurons
+        # 6D: 8 layers, 512 neurons
         if hidden_layers is None:
-            hidden_layers = 3 + self.ndim // 2  # 4 for 3D, 5 for 4D
+            if self.ndim >= 6:
+                hidden_layers = 8
+            else:
+                hidden_layers = 3 + self.ndim // 2
         if hidden_size is None:
-            hidden_size = 64 * max(1, self.ndim - 1)  # 128 for 3D, 192 for 4D
+            if self.ndim >= 6:
+                hidden_size = 512
+            else:
+                hidden_size = 64 * max(1, self.ndim - 1)
 
         if self.ndim != potential.ndim:
             raise ValueError(
@@ -273,6 +284,24 @@ class QuantumNumberTrainerND:
             x, y, z, w = coords
             return (0.5 * (x**2 + y**2 + z**2 + w**2) +
                     self.potential.coupling * (x * y + z * w))
+
+        elif isinstance(self.potential, CoupledOscillator6D):
+            # V = (1/2)Σᵢxᵢ² + λΣᵢxᵢxᵢ₊₁ (periodic)
+            result = 0.0
+            for x in coords:
+                result = result + 0.5 * x**2
+            lam = self.potential.coupling
+            for i in range(6):
+                j = (i + 1) % 6
+                result = result + lam * coords[i] * coords[j]
+            return result
+
+        elif isinstance(self.potential, TriatomicVibrational):
+            r1, r2, theta1, theta2, phi1, phi2 = coords
+            return (0.5 * self.potential.k_stretch * (r1**2 + r2**2) +
+                    0.5 * self.potential.k_bend_in * (theta1**2 + theta2**2) +
+                    0.5 * self.potential.k_bend_out * (phi1**2 + phi2**2) +
+                    self.potential.lambda_sb * (r1 * theta1 + r2 * theta2))
 
         else:
             # Generic fallback for isotropic oscillator
@@ -537,8 +566,27 @@ class QuantumNumberTrainerND:
                             torch.zeros_like(grids[grid_idx].flatten())
                         ))
                         grid_idx += 1
+            elif self.ndim >= 5:
+                # For 5D+, use random sampling on hyperplane x_k = 0
+                # Grid-based sampling is too memory-intensive
+                n_samples = 500 if self.ndim == 5 else 1000  # More for 6D
+                plane_coords = []
+                for i in range(self.ndim):
+                    if i == k:
+                        # x_k = 0
+                        plane_coords.append(torch.complex(
+                            torch.zeros(n_samples, device=self.device),
+                            torch.zeros(n_samples, device=self.device)
+                        ))
+                    else:
+                        # Random coordinates in [-2, 2]
+                        x_real = torch.rand(n_samples, device=self.device) * 4.0 - 2.0
+                        plane_coords.append(torch.complex(
+                            x_real,
+                            torch.zeros(n_samples, device=self.device)
+                        ))
             else:
-                continue  # Skip for other dimensions
+                continue  # Skip for dimensions < 3
 
             # Get smooth network output at plane points
             plane_inputs = []
@@ -654,9 +702,15 @@ class QuantumNumberTrainerND:
 
         return J.real
 
-    def sample_collocation_points(self, n_points, imag_scale=0.3):
+    def sample_collocation_points(self, n_points, imag_scale=0.3, importance_sampling=None):
         """
         Sample collocation points in the N-D complex space.
+
+        For 6D and higher, uses importance sampling to concentrate points
+        near regions of physical significance:
+        - Origin (ground state density peak)
+        - Classical turning surface (E = V boundary)
+        - Coordinate axes (symmetry)
 
         Parameters
         ----------
@@ -664,6 +718,8 @@ class QuantumNumberTrainerND:
             Number of points to sample
         imag_scale : float
             Scale for imaginary parts
+        importance_sampling : bool or None
+            If None, auto-enable for ndim >= 6
 
         Returns
         -------
@@ -674,13 +730,65 @@ class QuantumNumberTrainerND:
         tp = np.sqrt(2 * E_val)
         r = tp * 2.5
 
-        coords = []
-        for d in range(self.ndim):
-            x_real = torch.rand(n_points, device=self.device) * 2 * r - r
-            x_imag = torch.rand(n_points, device=self.device) * 2 * tp * imag_scale - tp * imag_scale
-            coords.append(torch.complex(x_real, x_imag))
+        # Auto-enable importance sampling for 6D+
+        if importance_sampling is None:
+            importance_sampling = (self.ndim >= 6)
 
-        return tuple(coords)
+        if not importance_sampling:
+            # Standard uniform sampling
+            coords = []
+            for d in range(self.ndim):
+                x_real = torch.rand(n_points, device=self.device) * 2 * r - r
+                x_imag = torch.rand(n_points, device=self.device) * 2 * tp * imag_scale - tp * imag_scale
+                coords.append(torch.complex(x_real, x_imag))
+            return tuple(coords)
+
+        # Importance sampling for 6D+
+        # Split points into three regions:
+        # 40% near origin (Gaussian), 40% near turning surface, 20% along axes
+        n_origin = int(0.4 * n_points)
+        n_turning = int(0.4 * n_points)
+        n_axes = n_points - n_origin - n_turning
+
+        all_coords = [[] for _ in range(self.ndim)]
+
+        # Region 1: Near origin (Gaussian distribution)
+        for d in range(self.ndim):
+            x_real = torch.randn(n_origin, device=self.device) * (tp * 0.5)
+            x_imag = torch.randn(n_origin, device=self.device) * (tp * imag_scale * 0.5)
+            all_coords[d].append(torch.complex(x_real, x_imag))
+
+        # Region 2: Near classical turning surface (shell at r ~ tp)
+        # Sample radius near tp, direction uniform on sphere
+        radii = torch.abs(torch.randn(n_turning, device=self.device) * 0.3 + 1.0) * tp
+        # Generate uniform direction by normalizing Gaussian vectors
+        directions = torch.randn(n_turning, self.ndim, device=self.device)
+        norms = torch.sqrt(torch.sum(directions**2, dim=1, keepdim=True))
+        directions = directions / (norms + 1e-8)
+
+        for d in range(self.ndim):
+            x_real = radii * directions[:, d]
+            x_imag = torch.randn(n_turning, device=self.device) * (tp * imag_scale * 0.3)
+            all_coords[d].append(torch.complex(x_real, x_imag))
+
+        # Region 3: Along coordinate axes (sparse in all but one dimension)
+        n_per_axis = max(1, n_axes // self.ndim)
+        for axis in range(self.ndim):
+            for d in range(self.ndim):
+                if d == axis:
+                    # Active dimension: sample broadly
+                    x_real = torch.rand(n_per_axis, device=self.device) * 2 * r - r
+                    x_imag = torch.rand(n_per_axis, device=self.device) * 2 * tp * imag_scale - tp * imag_scale
+                else:
+                    # Other dimensions: small values near zero
+                    x_real = torch.randn(n_per_axis, device=self.device) * 0.3
+                    x_imag = torch.randn(n_per_axis, device=self.device) * 0.1
+                all_coords[d].append(torch.complex(x_real, x_imag))
+
+        # Concatenate all regions
+        coords = tuple(torch.cat(all_coords[d], dim=0) for d in range(self.ndim))
+
+        return coords
 
     def train(self, n_epochs=None, lr=None, n_collocation=None,
               physics_weight=1.0, curl_weight=0.5, quant_weight=1.0,
@@ -722,14 +830,32 @@ class QuantumNumberTrainerND:
             Training result with energy, pole positions, and losses
         """
         # Dimension-aware defaults for training parameters
+        # 3D: 15000 epochs, 900 collocation, lr=1e-3
+        # 4D: 20000 epochs, 1200 collocation, lr=5e-4
+        # 5D: 25000 epochs, 5000 collocation, lr=3.3e-4
+        # 6D: 30000 epochs, 10000 collocation, lr=1e-4
         if n_epochs is None:
-            n_epochs = 5000 * self.ndim  # 15000 for 3D, 20000 for 4D
+            if self.ndim >= 6:
+                n_epochs = 30000
+            else:
+                n_epochs = 5000 * self.ndim
         if n_collocation is None:
-            n_collocation = 300 * self.ndim  # 900 for 3D, 1200 for 4D
+            if self.ndim >= 6:
+                n_collocation = 10000  # Much larger for 6D
+            elif self.ndim >= 5:
+                n_collocation = 5000
+            else:
+                n_collocation = 300 * self.ndim
         if lr is None:
-            lr = 1e-3 / max(1, self.ndim - 2)  # 1e-3 for 3D, 5e-4 for 4D
+            if self.ndim >= 6:
+                lr = 1e-4  # Slower for stability in 6D
+            else:
+                lr = 1e-3 / max(1, self.ndim - 2)
         if supervision_weight is None:
-            supervision_weight = 2.5 * self.ndim  # 7.5 for 3D, 10.0 for 4D
+            if self.ndim >= 6:
+                supervision_weight = 20.0  # Stronger supervision in 6D
+            else:
+                supervision_weight = 2.5 * self.ndim
         if quant_start_epoch is None:
             quant_start_epoch = n_epochs // 5  # Start at 20% of total epochs
         if lr_decay_step is None:
