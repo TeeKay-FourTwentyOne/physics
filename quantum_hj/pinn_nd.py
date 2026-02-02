@@ -790,10 +790,55 @@ class QuantumNumberTrainerND:
 
         return coords
 
+    def save_checkpoint(self, path):
+        """
+        Save model checkpoint to disk.
+
+        Parameters
+        ----------
+        path : str
+            Path to save checkpoint file (.pt)
+        """
+        checkpoint = {
+            'net_state_dict': self.net.state_dict(),
+            'E': self.E.detach().cpu().numpy().item(),
+            'quantum_numbers': self.quantum_numbers,
+            'ndim': self.ndim,
+            'hbar': self.hbar,
+            'mass': self.mass,
+            'loss_history': self.loss_history,
+            'physics_loss_history': self.physics_loss_history,
+            'curl_loss_history': self.curl_loss_history,
+            'quant_loss_history': self.quant_loss_history,
+            'supervision_loss_history': self.supervision_loss_history,
+            'E_history': self.E_history,
+        }
+        torch.save(checkpoint, path)
+
+    def load_checkpoint(self, path):
+        """
+        Load model checkpoint from disk.
+
+        Parameters
+        ----------
+        path : str
+            Path to checkpoint file (.pt)
+        """
+        checkpoint = torch.load(path, map_location=self.device)
+        self.net.load_state_dict(checkpoint['net_state_dict'])
+        self.E = torch.tensor(checkpoint['E'], device=self.device, requires_grad=True)
+        self.loss_history = checkpoint.get('loss_history', [])
+        self.physics_loss_history = checkpoint.get('physics_loss_history', [])
+        self.curl_loss_history = checkpoint.get('curl_loss_history', [])
+        self.quant_loss_history = checkpoint.get('quant_loss_history', [])
+        self.supervision_loss_history = checkpoint.get('supervision_loss_history', [])
+        self.E_history = checkpoint.get('E_history', [])
+
     def train(self, n_epochs=None, lr=None, n_collocation=None,
               physics_weight=1.0, curl_weight=0.5, quant_weight=1.0,
               supervision_weight=None, pole_reg_weight=0.01, quant_start_epoch=None,
-              lr_decay_step=None, lr_decay_factor=0.5, verbose=True):
+              lr_decay_step=None, lr_decay_factor=0.5, verbose=True,
+              checkpoint_path=None, checkpoint_interval=1800):
         """
         Train the network to find quantized energy and momentum field.
 
@@ -823,6 +868,10 @@ class QuantumNumberTrainerND:
             Factor to multiply learning rate by
         verbose : bool
             Print training progress
+        checkpoint_path : str or None
+            Path to save checkpoints. If None, no checkpoints are saved.
+        checkpoint_interval : int
+            Save checkpoint every N seconds (default: 1800 = 30 min)
 
         Returns
         -------
@@ -875,6 +924,10 @@ class QuantumNumberTrainerND:
         self.supervision_loss_history = []
         self.E_history = []
 
+        # Checkpoint timing
+        import time
+        last_checkpoint_time = time.time()
+
         for epoch in range(n_epochs):
             optimizer.zero_grad()
 
@@ -925,6 +978,21 @@ class QuantumNumberTrainerND:
                 print(f"Epoch {epoch:5d}: E={self.E.item():.4f}, "
                       f"phys={phys_loss.item():.2e}, curl={curl_loss_val.item():.2e}, "
                       f"quant={quant_loss_val.item():.2e}, sup={sup_loss.item():.2e}")
+
+            # Save checkpoint periodically
+            if checkpoint_path is not None:
+                current_time = time.time()
+                if current_time - last_checkpoint_time >= checkpoint_interval:
+                    self.save_checkpoint(checkpoint_path)
+                    if verbose:
+                        print(f"  [Checkpoint saved to {checkpoint_path}]")
+                    last_checkpoint_time = current_time
+
+        # Save final checkpoint
+        if checkpoint_path is not None:
+            self.save_checkpoint(checkpoint_path)
+            if verbose:
+                print(f"[Final checkpoint saved to {checkpoint_path}]")
 
         # Final results
         poles = self.net.pole_positions()
