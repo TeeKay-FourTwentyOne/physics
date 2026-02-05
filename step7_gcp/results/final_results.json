@@ -1,0 +1,19 @@
+{
+  "final_energy": 2.669540681400418,
+  "best_energy": 2.669537992322204,
+  "harmonic_zpe": 3.0,
+  "expected_energy": 2.97,
+  "below_harmonic_zpe": true,
+  "error_vs_expected": 10.11647537372331,
+  "total_epochs": 22999,
+  "training_time_hours": 5.993409339057075,
+  "final_loss": 0.01019353698939085,
+  "config": {
+    "hidden_layers": 8,
+    "hidden_dim": 512,
+    "n_collocation": 16000,
+    "learning_rate": 0.0001,
+    "lambda_hh": 0.11180339887498948
+  },
+  "timestamp": "2026-02-04T03:49:09.209496"
+}

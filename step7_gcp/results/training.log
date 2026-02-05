@@ -1,0 +1,280 @@
+Using device: cuda
+GPU: NVIDIA L4
+Memory: 23.7 GB
+Model parameters: 1,848,333
+Resuming from /home/trainer/checkpoints/checkpoint_epoch_027000.pt
+Resumed at epoch 27000, loss=0.021644, energy=2.702607
+
+============================================================
+Starting training: epochs 27001 to 50000
+Collocation points: 16,000
+Checkpoint interval: 1000
+============================================================
+
+Epoch  27100 | Loss: 0.017379 | Physics: 0.015470 | Curl: 0.019094 | Energy: 2.702411 | Time: 0.93s | Elapsed: 0.02h
+Epoch  27200 | Loss: 0.017219 | Physics: 0.015299 | Curl: 0.019200 | Energy: 2.702201 | Time: 0.94s | Elapsed: 0.05h
+Epoch  27300 | Loss: 0.022092 | Physics: 0.020156 | Curl: 0.019352 | Energy: 2.702136 | Time: 0.93s | Elapsed: 0.08h
+Epoch  27400 | Loss: 0.022650 | Physics: 0.020734 | Curl: 0.019162 | Energy: 2.702048 | Time: 0.94s | Elapsed: 0.10h
+Epoch  27500 | Loss: 0.020203 | Physics: 0.018338 | Curl: 0.018651 | Energy: 2.701861 | Time: 0.95s | Elapsed: 0.13h
+Epoch  27600 | Loss: 0.021143 | Physics: 0.019300 | Curl: 0.018433 | Energy: 2.701674 | Time: 0.94s | Elapsed: 0.16h
+Epoch  27700 | Loss: 0.018190 | Physics: 0.016364 | Curl: 0.018256 | Energy: 2.701489 | Time: 0.93s | Elapsed: 0.18h
+Epoch  27800 | Loss: 0.019435 | Physics: 0.017606 | Curl: 0.018289 | Energy: 2.701303 | Time: 0.94s | Elapsed: 0.21h
+Epoch  27900 | Loss: 0.016310 | Physics: 0.014493 | Curl: 0.018165 | Energy: 2.701125 | Time: 0.94s | Elapsed: 0.23h
+Epoch  28000 | Loss: 0.018706 | Physics: 0.016886 | Curl: 0.018200 | Energy: 2.700949 | Time: 0.95s | Elapsed: 0.26h
+  -> Saved checkpoint: /home/trainer/checkpoints/checkpoint_epoch_028000.pt
+Epoch  28100 | Loss: 0.016036 | Physics: 0.014176 | Curl: 0.018599 | Energy: 2.700778 | Time: 0.93s | Elapsed: 0.29h
+Epoch  28200 | Loss: 0.014841 | Physics: 0.012998 | Curl: 0.018429 | Energy: 2.700575 | Time: 0.93s | Elapsed: 0.31h
+Epoch  28300 | Loss: 0.021760 | Physics: 0.019976 | Curl: 0.017848 | Energy: 2.700385 | Time: 0.93s | Elapsed: 0.34h
+Epoch  28400 | Loss: 0.018903 | Physics: 0.017125 | Curl: 0.017781 | Energy: 2.700213 | Time: 0.94s | Elapsed: 0.36h
+Epoch  28500 | Loss: 0.018441 | Physics: 0.016660 | Curl: 0.017803 | Energy: 2.700038 | Time: 0.94s | Elapsed: 0.39h
+Epoch  28600 | Loss: 0.018650 | Physics: 0.016888 | Curl: 0.017621 | Energy: 2.699866 | Time: 0.94s | Elapsed: 0.42h
+Epoch  28700 | Loss: 0.019645 | Physics: 0.017842 | Curl: 0.018032 | Energy: 2.699702 | Time: 0.94s | Elapsed: 0.44h
+Epoch  28800 | Loss: 0.013927 | Physics: 0.012120 | Curl: 0.018074 | Energy: 2.699518 | Time: 0.94s | Elapsed: 0.47h
+Epoch  28900 | Loss: 0.019793 | Physics: 0.017993 | Curl: 0.017997 | Energy: 2.699298 | Time: 0.94s | Elapsed: 0.49h
+Epoch  29000 | Loss: 0.016663 | Physics: 0.014863 | Curl: 0.017995 | Energy: 2.699118 | Time: 0.94s | Elapsed: 0.52h
+  -> Saved checkpoint: /home/trainer/checkpoints/checkpoint_epoch_029000.pt
+Epoch  29100 | Loss: 0.018800 | Physics: 0.017021 | Curl: 0.017786 | Energy: 2.698902 | Time: 0.94s | Elapsed: 0.55h
+Epoch  29200 | Loss: 0.032414 | Physics: 0.030624 | Curl: 0.017904 | Energy: 2.698744 | Time: 0.93s | Elapsed: 0.57h
+Epoch  29300 | Loss: 0.027765 | Physics: 0.025993 | Curl: 0.017724 | Energy: 2.698585 | Time: 0.94s | Elapsed: 0.60h
+Epoch  29400 | Loss: 0.025436 | Physics: 0.023689 | Curl: 0.017466 | Energy: 2.698414 | Time: 0.94s | Elapsed: 0.62h
+Epoch  29500 | Loss: 0.025385 | Physics: 0.023642 | Curl: 0.017432 | Energy: 2.698248 | Time: 0.94s | Elapsed: 0.65h
+Epoch  29600 | Loss: 0.023426 | Physics: 0.021677 | Curl: 0.017495 | Energy: 2.698082 | Time: 0.94s | Elapsed: 0.68h
+Epoch  29700 | Loss: 0.022993 | Physics: 0.021270 | Curl: 0.017223 | Energy: 2.697915 | Time: 0.94s | Elapsed: 0.70h
+Epoch  29800 | Loss: 0.024222 | Physics: 0.022509 | Curl: 0.017125 | Energy: 2.697750 | Time: 0.93s | Elapsed: 0.73h
+Epoch  29900 | Loss: 0.020295 | Physics: 0.018579 | Curl: 0.017154 | Energy: 2.697582 | Time: 0.95s | Elapsed: 0.76h
+Epoch  30000 | Loss: 0.019402 | Physics: 0.017634 | Curl: 0.017685 | Energy: 2.697411 | Time: 0.93s | Elapsed: 0.78h
+  -> Saved checkpoint: /home/trainer/checkpoints/checkpoint_epoch_030000.pt
+Epoch  30100 | Loss: 0.015262 | Physics: 0.013513 | Curl: 0.017489 | Energy: 2.697224 | Time: 0.95s | Elapsed: 0.81h
+Epoch  30200 | Loss: 0.019235 | Physics: 0.017537 | Curl: 0.016984 | Energy: 2.697019 | Time: 0.94s | Elapsed: 0.83h
+Epoch  30300 | Loss: 0.019733 | Physics: 0.018083 | Curl: 0.016499 | Energy: 2.696859 | Time: 0.94s | Elapsed: 0.86h
+Epoch  30400 | Loss: 0.015948 | Physics: 0.014316 | Curl: 0.016323 | Energy: 2.696705 | Time: 0.94s | Elapsed: 0.89h
+Epoch  30500 | Loss: 0.015335 | Physics: 0.013690 | Curl: 0.016458 | Energy: 2.696549 | Time: 0.93s | Elapsed: 0.91h
+Epoch  30600 | Loss: 0.016922 | Physics: 0.015266 | Curl: 0.016561 | Energy: 2.696393 | Time: 0.94s | Elapsed: 0.94h
+Epoch  30700 | Loss: 0.014648 | Physics: 0.012985 | Curl: 0.016633 | Energy: 2.696233 | Time: 0.94s | Elapsed: 0.96h
+Epoch  30800 | Loss: 0.014742 | Physics: 0.013075 | Curl: 0.016671 | Energy: 2.696049 | Time: 0.93s | Elapsed: 0.99h
+Epoch  30900 | Loss: 0.019254 | Physics: 0.017599 | Curl: 0.016544 | Energy: 2.695918 | Time: 0.94s | Elapsed: 1.02h
+Epoch  31000 | Loss: 0.020068 | Physics: 0.018410 | Curl: 0.016582 | Energy: 2.695768 | Time: 0.93s | Elapsed: 1.04h
+  -> Saved checkpoint: /home/trainer/checkpoints/checkpoint_epoch_031000.pt
+Epoch  31100 | Loss: 0.017038 | Physics: 0.015391 | Curl: 0.016473 | Energy: 2.695613 | Time: 0.94s | Elapsed: 1.07h
+Epoch  31200 | Loss: 0.016999 | Physics: 0.015322 | Curl: 0.016769 | Energy: 2.695447 | Time: 0.94s | Elapsed: 1.09h
+Epoch  31300 | Loss: 0.011922 | Physics: 0.010229 | Curl: 0.016931 | Energy: 2.695266 | Time: 0.94s | Elapsed: 1.12h
+Epoch  31400 | Loss: 0.021588 | Physics: 0.019958 | Curl: 0.016308 | Energy: 2.695130 | Time: 0.93s | Elapsed: 1.15h
+Epoch  31500 | Loss: 0.022458 | Physics: 0.020849 | Curl: 0.016083 | Energy: 2.694979 | Time: 0.93s | Elapsed: 1.17h
+Epoch  31600 | Loss: 0.015476 | Physics: 0.013871 | Curl: 0.016052 | Energy: 2.694821 | Time: 0.94s | Elapsed: 1.20h
+Epoch  31700 | Loss: 0.016645 | Physics: 0.015052 | Curl: 0.015933 | Energy: 2.694667 | Time: 0.94s | Elapsed: 1.22h
+Epoch  31800 | Loss: 0.017536 | Physics: 0.015898 | Curl: 0.016384 | Energy: 2.694496 | Time: 0.95s | Elapsed: 1.25h
+Epoch  31900 | Loss: 0.011921 | Physics: 0.010286 | Curl: 0.016347 | Energy: 2.694314 | Time: 0.95s | Elapsed: 1.28h
+Epoch  32000 | Loss: 0.019089 | Physics: 0.017429 | Curl: 0.016598 | Energy: 2.694123 | Time: 0.94s | Elapsed: 1.30h
+  -> Saved checkpoint: /home/trainer/checkpoints/checkpoint_epoch_032000.pt
+Epoch  32100 | Loss: 0.016959 | Physics: 0.015390 | Curl: 0.015683 | Energy: 2.694037 | Time: 0.94s | Elapsed: 1.33h
+Epoch  32200 | Loss: 0.014028 | Physics: 0.012448 | Curl: 0.015795 | Energy: 2.693930 | Time: 0.95s | Elapsed: 1.35h
+Epoch  32300 | Loss: 0.029241 | Physics: 0.027661 | Curl: 0.015803 | Energy: 2.693748 | Time: 0.94s | Elapsed: 1.38h
+Epoch  32400 | Loss: 0.016884 | Physics: 0.015359 | Curl: 0.015253 | Energy: 2.693592 | Time: 0.95s | Elapsed: 1.41h
+Epoch  32500 | Loss: 0.018248 | Physics: 0.016740 | Curl: 0.015088 | Energy: 2.693435 | Time: 0.93s | Elapsed: 1.43h
+Epoch  32600 | Loss: 0.016143 | Physics: 0.014643 | Curl: 0.014999 | Energy: 2.693282 | Time: 0.94s | Elapsed: 1.46h
+Epoch  32700 | Loss: 0.015449 | Physics: 0.013949 | Curl: 0.015001 | Energy: 2.693126 | Time: 0.95s | Elapsed: 1.48h
+Epoch  32800 | Loss: 0.014560 | Physics: 0.013051 | Curl: 0.015100 | Energy: 2.692970 | Time: 0.94s | Elapsed: 1.51h
+Epoch  32900 | Loss: 0.014807 | Physics: 0.013310 | Curl: 0.014961 | Energy: 2.692814 | Time: 0.94s | Elapsed: 1.54h
+Epoch  33000 | Loss: 0.014199 | Physics: 0.012677 | Curl: 0.015224 | Energy: 2.692660 | Time: 0.95s | Elapsed: 1.56h
+  -> Saved checkpoint: /home/trainer/checkpoints/checkpoint_epoch_033000.pt
+Epoch  33100 | Loss: 0.013771 | Physics: 0.012257 | Curl: 0.015146 | Energy: 2.692495 | Time: 0.94s | Elapsed: 1.59h
+Epoch  33200 | Loss: 0.011706 | Physics: 0.010205 | Curl: 0.015007 | Energy: 2.692300 | Time: 0.95s | Elapsed: 1.62h
+Epoch  33300 | Loss: 0.005752 | Physics: 0.004249 | Curl: 0.015032 | Energy: 2.692080 | Time: 0.94s | Elapsed: 1.64h
+Epoch  33400 | Loss: 0.014685 | Physics: 0.013177 | Curl: 0.015081 | Energy: 2.691896 | Time: 0.94s | Elapsed: 1.67h
+Epoch  33500 | Loss: 0.022948 | Physics: 0.021425 | Curl: 0.015232 | Energy: 2.691752 | Time: 0.95s | Elapsed: 1.69h
+Epoch  33600 | Loss: 0.025899 | Physics: 0.024407 | Curl: 0.014924 | Energy: 2.691618 | Time: 0.95s | Elapsed: 1.72h
+Epoch  33700 | Loss: 0.023442 | Physics: 0.021930 | Curl: 0.015125 | Energy: 2.691469 | Time: 0.93s | Elapsed: 1.75h
+Epoch  33800 | Loss: 0.020308 | Physics: 0.018846 | Curl: 0.014623 | Energy: 2.691323 | Time: 0.94s | Elapsed: 1.77h
+Epoch  33900 | Loss: 0.020713 | Physics: 0.019225 | Curl: 0.014883 | Energy: 2.691171 | Time: 0.95s | Elapsed: 1.80h
+Epoch  34000 | Loss: 0.024596 | Physics: 0.023127 | Curl: 0.014689 | Energy: 2.691021 | Time: 0.93s | Elapsed: 1.82h
+  -> Saved checkpoint: /home/trainer/checkpoints/checkpoint_epoch_034000.pt
+Epoch  34100 | Loss: 0.023493 | Physics: 0.022019 | Curl: 0.014735 | Energy: 2.690873 | Time: 0.94s | Elapsed: 1.85h
+Epoch  34200 | Loss: 0.017110 | Physics: 0.015624 | Curl: 0.014855 | Energy: 2.690705 | Time: 0.94s | Elapsed: 1.88h
+Epoch  34300 | Loss: 0.015580 | Physics: 0.014109 | Curl: 0.014710 | Energy: 2.690529 | Time: 0.94s | Elapsed: 1.90h
+Epoch  34400 | Loss: 0.030257 | Physics: 0.028593 | Curl: 0.016643 | Energy: 2.690349 | Time: 0.94s | Elapsed: 1.93h
+Epoch  34500 | Loss: 0.017491 | Physics: 0.016070 | Curl: 0.014210 | Energy: 2.690247 | Time: 0.94s | Elapsed: 1.95h
+Epoch  34600 | Loss: 0.024439 | Physics: 0.022986 | Curl: 0.014530 | Energy: 2.690145 | Time: 0.94s | Elapsed: 1.98h
+Epoch  34700 | Loss: 0.023790 | Physics: 0.022335 | Curl: 0.014549 | Energy: 2.690004 | Time: 0.95s | Elapsed: 2.01h
+Epoch  34800 | Loss: 0.020317 | Physics: 0.018882 | Curl: 0.014345 | Energy: 2.689861 | Time: 0.94s | Elapsed: 2.03h
+Epoch  34900 | Loss: 0.019402 | Physics: 0.017967 | Curl: 0.014344 | Energy: 2.689717 | Time: 0.95s | Elapsed: 2.06h
+Epoch  35000 | Loss: 0.021183 | Physics: 0.019738 | Curl: 0.014451 | Energy: 2.689572 | Time: 0.93s | Elapsed: 2.08h
+  -> Saved checkpoint: /home/trainer/checkpoints/checkpoint_epoch_035000.pt
+Epoch  35100 | Loss: 0.018651 | Physics: 0.017164 | Curl: 0.014878 | Energy: 2.689413 | Time: 0.93s | Elapsed: 2.11h
+Epoch  35200 | Loss: 0.015112 | Physics: 0.013617 | Curl: 0.014951 | Energy: 2.689258 | Time: 0.94s | Elapsed: 2.14h
+Epoch  35300 | Loss: 0.012543 | Physics: 0.011120 | Curl: 0.014236 | Energy: 2.689096 | Time: 0.94s | Elapsed: 2.16h
+Epoch  35400 | Loss: 0.012980 | Physics: 0.011579 | Curl: 0.014004 | Energy: 2.688982 | Time: 0.94s | Elapsed: 2.19h
+Epoch  35500 | Loss: 0.024251 | Physics: 0.022870 | Curl: 0.013805 | Energy: 2.688795 | Time: 0.93s | Elapsed: 2.21h
+Epoch  35600 | Loss: 0.022482 | Physics: 0.021104 | Curl: 0.013772 | Energy: 2.688682 | Time: 0.94s | Elapsed: 2.24h
+Epoch  35700 | Loss: 0.020286 | Physics: 0.018919 | Curl: 0.013666 | Energy: 2.688553 | Time: 0.93s | Elapsed: 2.27h
+Epoch  35800 | Loss: 0.018827 | Physics: 0.017457 | Curl: 0.013706 | Energy: 2.688415 | Time: 0.94s | Elapsed: 2.29h
+Epoch  35900 | Loss: 0.019497 | Physics: 0.018149 | Curl: 0.013480 | Energy: 2.688275 | Time: 0.93s | Elapsed: 2.32h
+Epoch  36000 | Loss: 0.018179 | Physics: 0.016832 | Curl: 0.013472 | Energy: 2.688134 | Time: 0.94s | Elapsed: 2.35h
+  -> Saved checkpoint: /home/trainer/checkpoints/checkpoint_epoch_036000.pt
+Epoch  36100 | Loss: 0.017072 | Physics: 0.015711 | Curl: 0.013609 | Energy: 2.687992 | Time: 0.93s | Elapsed: 2.37h
+Epoch  36200 | Loss: 0.015789 | Physics: 0.014416 | Curl: 0.013729 | Energy: 2.687850 | Time: 0.93s | Elapsed: 2.40h
+Epoch  36300 | Loss: 0.013334 | Physics: 0.011949 | Curl: 0.013850 | Energy: 2.687687 | Time: 0.94s | Elapsed: 2.42h
+Epoch  36400 | Loss: 0.017023 | Physics: 0.015646 | Curl: 0.013773 | Energy: 2.687516 | Time: 0.94s | Elapsed: 2.45h
+Epoch  36500 | Loss: 0.017835 | Physics: 0.016459 | Curl: 0.013763 | Energy: 2.687434 | Time: 0.94s | Elapsed: 2.48h
+Epoch  36600 | Loss: 0.013440 | Physics: 0.012083 | Curl: 0.013570 | Energy: 2.687347 | Time: 0.94s | Elapsed: 2.50h
+Epoch  36700 | Loss: 0.011731 | Physics: 0.010383 | Curl: 0.013480 | Energy: 2.687173 | Time: 0.93s | Elapsed: 2.53h
+Epoch  36800 | Loss: 0.009746 | Physics: 0.008405 | Curl: 0.013415 | Energy: 2.686972 | Time: 0.94s | Elapsed: 2.55h
+Epoch  36900 | Loss: 0.019666 | Physics: 0.018310 | Curl: 0.013556 | Energy: 2.686868 | Time: 0.94s | Elapsed: 2.58h
+Epoch  37000 | Loss: 0.019177 | Physics: 0.017835 | Curl: 0.013426 | Energy: 2.686737 | Time: 0.94s | Elapsed: 2.61h
+  -> Saved checkpoint: /home/trainer/checkpoints/checkpoint_epoch_037000.pt
+Epoch  37100 | Loss: 0.018432 | Physics: 0.017096 | Curl: 0.013360 | Energy: 2.686592 | Time: 0.94s | Elapsed: 2.63h
+Epoch  37200 | Loss: 0.015852 | Physics: 0.014511 | Curl: 0.013411 | Energy: 2.686443 | Time: 0.93s | Elapsed: 2.66h
+Epoch  37300 | Loss: 0.016139 | Physics: 0.014795 | Curl: 0.013446 | Energy: 2.686297 | Time: 0.93s | Elapsed: 2.68h
+Epoch  37400 | Loss: 0.014801 | Physics: 0.013470 | Curl: 0.013315 | Energy: 2.686150 | Time: 0.94s | Elapsed: 2.71h
+Epoch  37500 | Loss: 0.014875 | Physics: 0.013549 | Curl: 0.013254 | Energy: 2.686003 | Time: 0.94s | Elapsed: 2.74h
+Epoch  37600 | Loss: 0.014668 | Physics: 0.013333 | Curl: 0.013350 | Energy: 2.685858 | Time: 0.94s | Elapsed: 2.76h
+Epoch  37700 | Loss: 0.013265 | Physics: 0.011897 | Curl: 0.013684 | Energy: 2.685707 | Time: 0.94s | Elapsed: 2.79h
+Epoch  37800 | Loss: 0.011562 | Physics: 0.010210 | Curl: 0.013528 | Energy: 2.685546 | Time: 0.93s | Elapsed: 2.81h
+Epoch  37900 | Loss: 0.008626 | Physics: 0.007286 | Curl: 0.013400 | Energy: 2.685367 | Time: 0.94s | Elapsed: 2.84h
+Epoch  38000 | Loss: 0.016742 | Physics: 0.015422 | Curl: 0.013198 | Energy: 2.685240 | Time: 0.94s | Elapsed: 2.87h
+  -> Saved checkpoint: /home/trainer/checkpoints/checkpoint_epoch_038000.pt
+Epoch  38100 | Loss: 0.013644 | Physics: 0.012341 | Curl: 0.013026 | Energy: 2.685064 | Time: 0.94s | Elapsed: 2.89h
+Epoch  38200 | Loss: 0.019529 | Physics: 0.018255 | Curl: 0.012746 | Energy: 2.684883 | Time: 0.94s | Elapsed: 2.92h
+Epoch  38300 | Loss: 0.018244 | Physics: 0.016980 | Curl: 0.012639 | Energy: 2.684764 | Time: 0.94s | Elapsed: 2.94h
+Epoch  38400 | Loss: 0.016424 | Physics: 0.015160 | Curl: 0.012646 | Energy: 2.684631 | Time: 0.94s | Elapsed: 2.97h
+Epoch  38500 | Loss: 0.016762 | Physics: 0.015502 | Curl: 0.012606 | Energy: 2.684496 | Time: 0.93s | Elapsed: 3.00h
+Epoch  38600 | Loss: 0.015973 | Physics: 0.014720 | Curl: 0.012538 | Energy: 2.684364 | Time: 0.94s | Elapsed: 3.02h
+Epoch  38700 | Loss: 0.016317 | Physics: 0.015061 | Curl: 0.012557 | Energy: 2.684222 | Time: 0.93s | Elapsed: 3.05h
+Epoch  38800 | Loss: 0.016867 | Physics: 0.015575 | Curl: 0.012919 | Energy: 2.684073 | Time: 0.94s | Elapsed: 3.07h
+Epoch  38900 | Loss: 0.014459 | Physics: 0.013189 | Curl: 0.012701 | Energy: 2.683906 | Time: 0.95s | Elapsed: 3.10h
+Epoch  39000 | Loss: 0.026879 | Physics: 0.025591 | Curl: 0.012880 | Energy: 2.683785 | Time: 0.94s | Elapsed: 3.13h
+  -> Saved checkpoint: /home/trainer/checkpoints/checkpoint_epoch_039000.pt
+Epoch  39100 | Loss: 0.021983 | Physics: 0.020710 | Curl: 0.012732 | Energy: 2.683672 | Time: 0.94s | Elapsed: 3.15h
+Epoch  39200 | Loss: 0.020055 | Physics: 0.018771 | Curl: 0.012839 | Energy: 2.683548 | Time: 0.94s | Elapsed: 3.18h
+Epoch  39300 | Loss: 0.019442 | Physics: 0.018174 | Curl: 0.012684 | Energy: 2.683419 | Time: 0.93s | Elapsed: 3.20h
+Epoch  39400 | Loss: 0.018590 | Physics: 0.017325 | Curl: 0.012646 | Energy: 2.683284 | Time: 0.94s | Elapsed: 3.23h
+Epoch  39500 | Loss: 0.017119 | Physics: 0.015841 | Curl: 0.012780 | Energy: 2.683146 | Time: 0.93s | Elapsed: 3.26h
+Epoch  39600 | Loss: 0.015429 | Physics: 0.014160 | Curl: 0.012696 | Energy: 2.682994 | Time: 0.94s | Elapsed: 3.28h
+Epoch  39700 | Loss: 0.012819 | Physics: 0.011552 | Curl: 0.012671 | Energy: 2.682832 | Time: 0.93s | Elapsed: 3.31h
+Epoch  39800 | Loss: 0.021704 | Physics: 0.020450 | Curl: 0.012542 | Energy: 2.682680 | Time: 0.95s | Elapsed: 3.34h
+Epoch  39900 | Loss: 0.018315 | Physics: 0.017070 | Curl: 0.012457 | Energy: 2.682563 | Time: 0.93s | Elapsed: 3.36h
+Epoch  40000 | Loss: 0.016934 | Physics: 0.015701 | Curl: 0.012333 | Energy: 2.682435 | Time: 0.93s | Elapsed: 3.39h
+  -> Saved checkpoint: /home/trainer/checkpoints/checkpoint_epoch_040000.pt
+Epoch  40100 | Loss: 0.016739 | Physics: 0.015510 | Curl: 0.012289 | Energy: 2.682308 | Time: 0.93s | Elapsed: 3.41h
+Epoch  40200 | Loss: 0.015511 | Physics: 0.014278 | Curl: 0.012332 | Energy: 2.682174 | Time: 0.93s | Elapsed: 3.44h
+Epoch  40300 | Loss: 0.012447 | Physics: 0.011173 | Curl: 0.012738 | Energy: 2.682027 | Time: 0.94s | Elapsed: 3.47h
+Epoch  40400 | Loss: 0.012782 | Physics: 0.011510 | Curl: 0.012728 | Energy: 2.681868 | Time: 0.93s | Elapsed: 3.49h
+Epoch  40500 | Loss: 0.027500 | Physics: 0.026263 | Curl: 0.012375 | Energy: 2.681676 | Time: 0.93s | Elapsed: 3.52h
+Epoch  40600 | Loss: 0.019485 | Physics: 0.018270 | Curl: 0.012156 | Energy: 2.681610 | Time: 0.94s | Elapsed: 3.54h
+Epoch  40700 | Loss: 0.021049 | Physics: 0.019825 | Curl: 0.012240 | Energy: 2.681491 | Time: 0.93s | Elapsed: 3.57h
+Epoch  40800 | Loss: 0.017039 | Physics: 0.015815 | Curl: 0.012242 | Energy: 2.681360 | Time: 0.93s | Elapsed: 3.60h
+Epoch  40900 | Loss: 0.017488 | Physics: 0.016262 | Curl: 0.012258 | Energy: 2.681232 | Time: 0.95s | Elapsed: 3.62h
+Epoch  41000 | Loss: 0.017462 | Physics: 0.016249 | Curl: 0.012129 | Energy: 2.681099 | Time: 0.93s | Elapsed: 3.65h
+  -> Saved checkpoint: /home/trainer/checkpoints/checkpoint_epoch_041000.pt
+Epoch  41100 | Loss: 0.015764 | Physics: 0.014508 | Curl: 0.012553 | Energy: 2.680951 | Time: 0.94s | Elapsed: 3.67h
+Epoch  41200 | Loss: 0.012070 | Physics: 0.010808 | Curl: 0.012617 | Energy: 2.680799 | Time: 0.95s | Elapsed: 3.70h
+Epoch  41300 | Loss: 0.012783 | Physics: 0.011524 | Curl: 0.012588 | Energy: 2.680645 | Time: 0.95s | Elapsed: 3.73h
+Epoch  41400 | Loss: 0.008512 | Physics: 0.007293 | Curl: 0.012187 | Energy: 2.680490 | Time: 0.93s | Elapsed: 3.75h
+Epoch  41500 | Loss: 0.018216 | Physics: 0.017022 | Curl: 0.011938 | Energy: 2.680390 | Time: 0.94s | Elapsed: 3.78h
+Epoch  41600 | Loss: 0.016944 | Physics: 0.015739 | Curl: 0.012049 | Energy: 2.680282 | Time: 0.94s | Elapsed: 3.80h
+Epoch  41700 | Loss: 0.016840 | Physics: 0.015635 | Curl: 0.012053 | Energy: 2.680165 | Time: 0.93s | Elapsed: 3.83h
+Epoch  41800 | Loss: 0.016625 | Physics: 0.015433 | Curl: 0.011920 | Energy: 2.680045 | Time: 0.93s | Elapsed: 3.86h
+Epoch  41900 | Loss: 0.014020 | Physics: 0.012838 | Curl: 0.011816 | Energy: 2.679918 | Time: 0.95s | Elapsed: 3.88h
+Epoch  42000 | Loss: 0.015624 | Physics: 0.014400 | Curl: 0.012242 | Energy: 2.679786 | Time: 0.93s | Elapsed: 3.91h
+  -> Saved checkpoint: /home/trainer/checkpoints/checkpoint_epoch_042000.pt
+Epoch  42100 | Loss: 0.011872 | Physics: 0.010638 | Curl: 0.012342 | Energy: 2.679650 | Time: 0.93s | Elapsed: 3.93h
+Epoch  42200 | Loss: 0.011081 | Physics: 0.009883 | Curl: 0.011989 | Energy: 2.679521 | Time: 0.94s | Elapsed: 3.96h
+Epoch  42300 | Loss: 0.025536 | Physics: 0.024374 | Curl: 0.011621 | Energy: 2.679391 | Time: 0.94s | Elapsed: 3.99h
+Epoch  42400 | Loss: 0.011875 | Physics: 0.010674 | Curl: 0.012010 | Energy: 2.679253 | Time: 0.93s | Elapsed: 4.01h
+Epoch  42500 | Loss: 0.010179 | Physics: 0.009029 | Curl: 0.011499 | Energy: 2.679139 | Time: 0.93s | Elapsed: 4.04h
+Epoch  42600 | Loss: 0.028321 | Physics: 0.027153 | Curl: 0.011684 | Energy: 2.679073 | Time: 0.94s | Elapsed: 4.07h
+Epoch  42700 | Loss: 0.021901 | Physics: 0.020751 | Curl: 0.011506 | Energy: 2.678952 | Time: 0.94s | Elapsed: 4.09h
+Epoch  42800 | Loss: 0.021568 | Physics: 0.020402 | Curl: 0.011654 | Energy: 2.678820 | Time: 0.94s | Elapsed: 4.12h
+Epoch  42900 | Loss: 0.018768 | Physics: 0.017623 | Curl: 0.011456 | Energy: 2.678684 | Time: 0.94s | Elapsed: 4.14h
+Epoch  43000 | Loss: 0.020948 | Physics: 0.019798 | Curl: 0.011499 | Energy: 2.678551 | Time: 0.94s | Elapsed: 4.17h
+  -> Saved checkpoint: /home/trainer/checkpoints/checkpoint_epoch_043000.pt
+Epoch  43100 | Loss: 0.016481 | Physics: 0.015320 | Curl: 0.011610 | Energy: 2.678416 | Time: 0.93s | Elapsed: 4.20h
+Epoch  43200 | Loss: 0.018163 | Physics: 0.017011 | Curl: 0.011522 | Energy: 2.678285 | Time: 0.94s | Elapsed: 4.22h
+Epoch  43300 | Loss: 0.017355 | Physics: 0.016223 | Curl: 0.011322 | Energy: 2.678151 | Time: 0.93s | Elapsed: 4.25h
+Epoch  43400 | Loss: 0.015007 | Physics: 0.013856 | Curl: 0.011505 | Energy: 2.678011 | Time: 0.94s | Elapsed: 4.27h
+Epoch  43500 | Loss: 0.012406 | Physics: 0.011232 | Curl: 0.011736 | Energy: 2.677866 | Time: 0.94s | Elapsed: 4.30h
+Epoch  43600 | Loss: 0.008477 | Physics: 0.007329 | Curl: 0.011478 | Energy: 2.677716 | Time: 0.94s | Elapsed: 4.33h
+Epoch  43700 | Loss: 0.014745 | Physics: 0.013616 | Curl: 0.011287 | Energy: 2.677546 | Time: 0.95s | Elapsed: 4.35h
+Epoch  43800 | Loss: 0.012343 | Physics: 0.011217 | Curl: 0.011254 | Energy: 2.677412 | Time: 0.93s | Elapsed: 4.38h
+Epoch  43900 | Loss: 0.039094 | Physics: 0.037850 | Curl: 0.012443 | Energy: 2.677309 | Time: 0.94s | Elapsed: 4.40h
+Epoch  44000 | Loss: 0.013171 | Physics: 0.012012 | Curl: 0.011594 | Energy: 2.677176 | Time: 0.94s | Elapsed: 4.43h
+  -> Saved checkpoint: /home/trainer/checkpoints/checkpoint_epoch_044000.pt
+Epoch  44100 | Loss: 0.014242 | Physics: 0.013174 | Curl: 0.010684 | Energy: 2.677067 | Time: 0.94s | Elapsed: 4.46h
+Epoch  44200 | Loss: 0.013856 | Physics: 0.012776 | Curl: 0.010797 | Energy: 2.676944 | Time: 0.94s | Elapsed: 4.48h
+Epoch  44300 | Loss: 0.013757 | Physics: 0.012672 | Curl: 0.010850 | Energy: 2.676813 | Time: 0.94s | Elapsed: 4.51h
+Epoch  44400 | Loss: 0.012279 | Physics: 0.011206 | Curl: 0.010730 | Energy: 2.676685 | Time: 0.94s | Elapsed: 4.53h
+Epoch  44500 | Loss: 0.014316 | Physics: 0.013249 | Curl: 0.010677 | Energy: 2.676554 | Time: 0.95s | Elapsed: 4.56h
+Epoch  44600 | Loss: 0.014538 | Physics: 0.013449 | Curl: 0.010890 | Energy: 2.676422 | Time: 0.95s | Elapsed: 4.59h
+Epoch  44700 | Loss: 0.012926 | Physics: 0.011833 | Curl: 0.010925 | Energy: 2.676303 | Time: 0.93s | Elapsed: 4.61h
+Epoch  44800 | Loss: 0.010820 | Physics: 0.009721 | Curl: 0.010987 | Energy: 2.676175 | Time: 0.94s | Elapsed: 4.64h
+Epoch  44900 | Loss: 0.012303 | Physics: 0.011197 | Curl: 0.011064 | Energy: 2.676036 | Time: 0.94s | Elapsed: 4.66h
+Epoch  45000 | Loss: 0.007410 | Physics: 0.006322 | Curl: 0.010880 | Energy: 2.675907 | Time: 0.94s | Elapsed: 4.69h
+  -> Saved checkpoint: /home/trainer/checkpoints/checkpoint_epoch_045000.pt
+Epoch  45100 | Loss: 0.014460 | Physics: 0.013406 | Curl: 0.010533 | Energy: 2.675783 | Time: 0.93s | Elapsed: 4.72h
+Epoch  45200 | Loss: 0.016415 | Physics: 0.015362 | Curl: 0.010528 | Energy: 2.675657 | Time: 0.93s | Elapsed: 4.74h
+Epoch  45300 | Loss: 0.016377 | Physics: 0.015327 | Curl: 0.010506 | Energy: 2.675528 | Time: 0.94s | Elapsed: 4.77h
+Epoch  45400 | Loss: 0.014690 | Physics: 0.013653 | Curl: 0.010370 | Energy: 2.675399 | Time: 0.94s | Elapsed: 4.80h
+Epoch  45500 | Loss: 0.013871 | Physics: 0.012806 | Curl: 0.010649 | Energy: 2.675267 | Time: 0.94s | Elapsed: 4.82h
+Epoch  45600 | Loss: 0.011991 | Physics: 0.010930 | Curl: 0.010611 | Energy: 2.675117 | Time: 0.94s | Elapsed: 4.85h
+Epoch  45700 | Loss: 0.011141 | Physics: 0.010072 | Curl: 0.010690 | Energy: 2.674952 | Time: 0.94s | Elapsed: 4.87h
+Epoch  45800 | Loss: 0.020766 | Physics: 0.019704 | Curl: 0.010612 | Energy: 2.674775 | Time: 0.93s | Elapsed: 4.90h
+Epoch  45900 | Loss: 0.017447 | Physics: 0.016413 | Curl: 0.010333 | Energy: 2.674665 | Time: 0.94s | Elapsed: 4.93h
+Epoch  46000 | Loss: 0.016317 | Physics: 0.015285 | Curl: 0.010317 | Energy: 2.674548 | Time: 0.94s | Elapsed: 4.95h
+  -> Saved checkpoint: /home/trainer/checkpoints/checkpoint_epoch_046000.pt
+Epoch  46100 | Loss: 0.015411 | Physics: 0.014377 | Curl: 0.010341 | Energy: 2.674423 | Time: 0.94s | Elapsed: 4.98h
+Epoch  46200 | Loss: 0.014894 | Physics: 0.013865 | Curl: 0.010293 | Energy: 2.674300 | Time: 0.93s | Elapsed: 5.00h
+Epoch  46300 | Loss: 0.015404 | Physics: 0.014379 | Curl: 0.010252 | Energy: 2.674179 | Time: 0.94s | Elapsed: 5.03h
+Epoch  46400 | Loss: 0.014902 | Physics: 0.013869 | Curl: 0.010325 | Energy: 2.674053 | Time: 0.94s | Elapsed: 5.06h
+Epoch  46500 | Loss: 0.012920 | Physics: 0.011874 | Curl: 0.010463 | Energy: 2.673946 | Time: 0.93s | Elapsed: 5.08h
+Epoch  46600 | Loss: 0.010081 | Physics: 0.009020 | Curl: 0.010617 | Energy: 2.673807 | Time: 0.93s | Elapsed: 5.11h
+Epoch  46700 | Loss: 0.012596 | Physics: 0.011548 | Curl: 0.010479 | Energy: 2.673690 | Time: 0.94s | Elapsed: 5.13h
+Epoch  46800 | Loss: 0.018710 | Physics: 0.017672 | Curl: 0.010379 | Energy: 2.673580 | Time: 0.94s | Elapsed: 5.16h
+Epoch  46900 | Loss: 0.017904 | Physics: 0.016863 | Curl: 0.010408 | Energy: 2.673458 | Time: 0.94s | Elapsed: 5.19h
+Epoch  47000 | Loss: 0.014282 | Physics: 0.013221 | Curl: 0.010611 | Energy: 2.673331 | Time: 0.94s | Elapsed: 5.21h
+  -> Saved checkpoint: /home/trainer/checkpoints/checkpoint_epoch_047000.pt
+Epoch  47100 | Loss: 0.013101 | Physics: 0.012028 | Curl: 0.010727 | Energy: 2.673200 | Time: 0.94s | Elapsed: 5.24h
+Epoch  47200 | Loss: 0.010822 | Physics: 0.009755 | Curl: 0.010666 | Energy: 2.673050 | Time: 0.94s | Elapsed: 5.26h
+Epoch  47300 | Loss: 0.020817 | Physics: 0.019786 | Curl: 0.010316 | Energy: 2.672945 | Time: 0.93s | Elapsed: 5.29h
+Epoch  47400 | Loss: 0.018007 | Physics: 0.016970 | Curl: 0.010365 | Energy: 2.672827 | Time: 0.94s | Elapsed: 5.32h
+Epoch  47500 | Loss: 0.017019 | Physics: 0.015988 | Curl: 0.010308 | Energy: 2.672708 | Time: 0.94s | Elapsed: 5.34h
+Epoch  47600 | Loss: 0.017174 | Physics: 0.016125 | Curl: 0.010492 | Energy: 2.672575 | Time: 0.94s | Elapsed: 5.37h
+Epoch  47700 | Loss: 0.011693 | Physics: 0.010628 | Curl: 0.010653 | Energy: 2.672429 | Time: 0.94s | Elapsed: 5.39h
+Epoch  47800 | Loss: 0.010147 | Physics: 0.009096 | Curl: 0.010509 | Energy: 2.672287 | Time: 0.94s | Elapsed: 5.42h
+Epoch  47900 | Loss: 0.009512 | Physics: 0.008478 | Curl: 0.010340 | Energy: 2.672229 | Time: 0.94s | Elapsed: 5.45h
+Epoch  48000 | Loss: 0.008328 | Physics: 0.007309 | Curl: 0.010190 | Energy: 2.672069 | Time: 0.94s | Elapsed: 5.47h
+  -> Saved checkpoint: /home/trainer/checkpoints/checkpoint_epoch_048000.pt
+Epoch  48100 | Loss: 0.007660 | Physics: 0.006627 | Curl: 0.010338 | Energy: 2.671892 | Time: 0.94s | Elapsed: 5.50h
+Epoch  48200 | Loss: 0.010309 | Physics: 0.009303 | Curl: 0.010060 | Energy: 2.671686 | Time: 0.93s | Elapsed: 5.52h
+Epoch  48300 | Loss: 0.016342 | Physics: 0.015339 | Curl: 0.010029 | Energy: 2.671600 | Time: 0.94s | Elapsed: 5.55h
+Epoch  48400 | Loss: 0.014332 | Physics: 0.013328 | Curl: 0.010035 | Energy: 2.671492 | Time: 0.93s | Elapsed: 5.58h
+Epoch  48500 | Loss: 0.014301 | Physics: 0.013298 | Curl: 0.010037 | Energy: 2.671375 | Time: 0.94s | Elapsed: 5.60h
+Epoch  48600 | Loss: 0.015780 | Physics: 0.014775 | Curl: 0.010056 | Energy: 2.671254 | Time: 0.94s | Elapsed: 5.63h
+Epoch  48700 | Loss: 0.014274 | Physics: 0.013282 | Curl: 0.009915 | Energy: 2.671135 | Time: 0.94s | Elapsed: 5.65h
+Epoch  48800 | Loss: 0.013181 | Physics: 0.012189 | Curl: 0.009919 | Energy: 2.671011 | Time: 0.93s | Elapsed: 5.68h
+Epoch  48900 | Loss: 0.010498 | Physics: 0.009456 | Curl: 0.010418 | Energy: 2.670868 | Time: 0.94s | Elapsed: 5.71h
+Epoch  49000 | Loss: 0.008328 | Physics: 0.007298 | Curl: 0.010307 | Energy: 2.670721 | Time: 0.94s | Elapsed: 5.73h
+  -> Saved checkpoint: /home/trainer/checkpoints/checkpoint_epoch_049000.pt
+Epoch  49100 | Loss: 0.017600 | Physics: 0.016471 | Curl: 0.011287 | Energy: 2.670579 | Time: 0.93s | Elapsed: 5.76h
+Epoch  49200 | Loss: 0.016083 | Physics: 0.015092 | Curl: 0.009909 | Energy: 2.670496 | Time: 0.94s | Elapsed: 5.79h
+Epoch  49300 | Loss: 0.015636 | Physics: 0.014654 | Curl: 0.009817 | Energy: 2.670393 | Time: 0.94s | Elapsed: 5.81h
+Epoch  49400 | Loss: 0.013524 | Physics: 0.012538 | Curl: 0.009867 | Energy: 2.670279 | Time: 0.94s | Elapsed: 5.84h
+Epoch  49500 | Loss: 0.013856 | Physics: 0.012866 | Curl: 0.009895 | Energy: 2.670160 | Time: 0.94s | Elapsed: 5.86h
+Epoch  49600 | Loss: 0.013913 | Physics: 0.012927 | Curl: 0.009864 | Energy: 2.670042 | Time: 0.93s | Elapsed: 5.89h
+Epoch  49700 | Loss: 0.012302 | Physics: 0.011319 | Curl: 0.009828 | Energy: 2.669925 | Time: 0.94s | Elapsed: 5.92h
+Epoch  49800 | Loss: 0.011562 | Physics: 0.010566 | Curl: 0.009964 | Energy: 2.669803 | Time: 0.93s | Elapsed: 5.94h
+Epoch  49900 | Loss: 0.010010 | Physics: 0.009006 | Curl: 0.010040 | Energy: 2.669671 | Time: 0.94s | Elapsed: 5.97h
+
+============================================================
+TRAINING COMPLETE
+============================================================
+Final energy:      2.669541 a.u.
+Best energy:       2.669538 a.u.
+Harmonic ZPE:      3.000000 a.u.
+Expected (lit):    2.970000 a.u.
+Below harmonic:    YES
+Error vs expected: 10.12%
+Training time:     5.99 hours
+Results saved:     /home/trainer/results/final_results.json
+Final checkpoint:  /home/trainer/checkpoints/checkpoint_epoch_022999.pt
+============================================================
+
+✗ Target not met: 2.6695 outside [2.91, 3.03]
