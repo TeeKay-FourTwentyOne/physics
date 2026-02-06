@@ -127,10 +127,12 @@ class HamiltonianMonteCarlo:
         step_size: Leapfrog integration step size
         n_leapfrog: Number of leapfrog steps per proposal
         device: torch device
+        V_func: Optional potential function for V<0 rejection (bounded sampling)
+        target_acceptance: Target acceptance rate for step size adaptation (default 0.65)
     """
 
     def __init__(self, model, dim, n_walkers=1000, step_size=0.1,
-                 n_leapfrog=10, device=None):
+                 n_leapfrog=10, device=None, V_func=None, target_acceptance=0.65):
         self.model = model
         self.dim = dim
         self.n_walkers = n_walkers
@@ -143,6 +145,9 @@ class HamiltonianMonteCarlo:
 
         self.walkers = torch.randn(n_walkers, dim, device=device)
         self.acceptance_rate = 0.5
+        self.V_func = V_func
+        self.target_acceptance = target_acceptance
+        self.v_rejection_rate = 0.0
 
     def _grad_log_prob(self, x):
         """Compute gradient of log|psi|^2 = 2*grad(f)."""
@@ -164,7 +169,8 @@ class HamiltonianMonteCarlo:
         """
         total_steps = burn_in + n_steps
         n_accepted = 0
-        n_proposed = 0
+        n_v_rejected = 0
+        n_total = 0
 
         for step in range(total_steps):
             # Sample momentum from N(0, 1)
@@ -200,10 +206,19 @@ class HamiltonianMonteCarlo:
                 log_prob_q_new = 2.0 * self.model(q_new)
             H_proposed = -log_prob_q_new + 0.5 * (p_new ** 2).sum(dim=-1)
 
-            # Accept/reject
+            # Check V<0 constraint if V_func provided
+            if self.V_func is not None:
+                with torch.no_grad():
+                    V_new = self.V_func(q_new)
+                    v_valid = V_new >= 0
+            else:
+                v_valid = torch.ones(self.n_walkers, dtype=torch.bool, device=self.device)
+
+            # Accept/reject: Metropolis AND V>=0
             log_accept_prob = H_current - H_proposed
             log_uniform = torch.log(torch.rand(self.n_walkers, device=self.device))
-            accept = log_uniform < log_accept_prob
+            metropolis_accept = log_uniform < log_accept_prob
+            accept = v_valid & metropolis_accept
 
             self.walkers = torch.where(
                 accept.unsqueeze(-1),
@@ -213,9 +228,39 @@ class HamiltonianMonteCarlo:
 
             if step >= burn_in:
                 n_accepted += accept.sum().item()
-                n_proposed += self.n_walkers
+                n_v_rejected += (~v_valid).sum().item()
+                n_total += self.n_walkers
 
-        if n_proposed > 0:
-            self.acceptance_rate = n_accepted / n_proposed
+        if n_total > 0:
+            self.acceptance_rate = n_accepted / n_total
+            self.v_rejection_rate = n_v_rejected / n_total
 
         return self.walkers.clone()
+
+    def adapt_step_size(self):
+        """Adjust step size to target acceptance rate."""
+        if self.acceptance_rate < self.target_acceptance - 0.1:
+            self.step_size *= 0.8  # Decrease faster when too low
+        elif self.acceptance_rate > self.target_acceptance + 0.1:
+            self.step_size *= 1.2  # Increase faster when too high
+        # Clamp to reasonable range (allow larger steps for high-D)
+        self.step_size = max(0.001, min(2.0, self.step_size))
+
+    def thermalize(self, n_steps=100, adapt_every=20):
+        """
+        Thermalize with step size adaptation.
+
+        Args:
+            n_steps: Total thermalization steps
+            adapt_every: Adapt step size every N steps
+        """
+        for i in range(n_steps):
+            self.sample(n_steps=1)
+            if (i + 1) % adapt_every == 0:
+                self.adapt_step_size()
+
+    def reset(self, init_scale=1.0):
+        """Reset walkers to random positions."""
+        self.walkers = init_scale * torch.randn(
+            self.n_walkers, self.dim, device=self.device
+        )
