@@ -158,7 +158,8 @@ def run_single_trial(seed, dim, max_epochs=10000, max_time=4*60*60, verbose=True
                 sampler.walkers[too_high_V] = 0.3 * torch.randn(n_reset, dim, device=device)
                 x = sampler.walkers.clone()
 
-        x = x.requires_grad_(True)
+        # Ensure x is fully detached from any prior gradient computations (important for HMC)
+        x = x.detach().clone().requires_grad_(True)
 
         E_loc = compute_local_energy(model, x, V_func)
         f = model(x)
@@ -214,28 +215,15 @@ def run_single_trial(seed, dim, max_epochs=10000, max_time=4*60*60, verbose=True
 
     total_time = time.time() - start_time
 
-    # Fresh walker validation - use same sampler type
+    # Fresh walker validation - always use Metropolis for robustness
+    # (HMC can cause walkers to drift during fresh thermalization)
     fresh_n_walkers = 1000
-    if using_hmc:
-        fresh_sampler = HamiltonianMonteCarlo(
-            model,
-            dim=dim,
-            n_walkers=fresh_n_walkers,
-            step_size=sampler.step_size,
-            n_leapfrog=20,
-            device=device,
-            V_func=V_func,
-            target_acceptance=0.65
-        )
-        fresh_sampler.walkers = 0.5 * torch.randn(fresh_n_walkers, dim, device=device)
-        fresh_sampler.thermalize(n_steps=100, adapt_every=20)
-    else:
-        fresh_sampler = BoundedMetropolisSampler(
-            model, V_func, dim=dim, n_walkers=fresh_n_walkers,
-            step_size=sampler.step_size, device=device
-        )
-        fresh_sampler.walkers = 0.5 * torch.randn(fresh_n_walkers, dim, device=device)
-        fresh_sampler.thermalize(n_steps=500)
+    fresh_sampler = BoundedMetropolisSampler(
+        model, V_func, dim=dim, n_walkers=fresh_n_walkers,
+        step_size=0.4, device=device
+    )
+    fresh_sampler.walkers = 0.5 * torch.randn(fresh_n_walkers, dim, device=device)
+    fresh_sampler.thermalize(n_steps=500)
 
     all_E = []
     batch_size = 200
